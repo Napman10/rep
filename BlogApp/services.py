@@ -33,11 +33,14 @@ def edituser(request):
 
 def renderableDict(request):
     me = request.user
-    status = UserStatus.manager.get(user=me).status
-    photolist = UserImage.manager.filter(user=me)
+    photolist = list()
     photodict = dict()
-    if len(photolist)!=0:
+    status = UserStatus.manager.get(user=me).status
+    try:
+        photolist = UserImage.manager.filter(user=me)
         photodict.update({"myphoto":photolist[0].photo.url})
+    except:
+        pass
     dict1 = {"id":me.id,"username":me.username, "name":me.first_name, "surname":me.last_name,
     "status":status, "auth":True, "haveph": len(photolist)!=0}
     dict1.update(photodict)
