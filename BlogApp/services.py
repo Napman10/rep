@@ -1,6 +1,6 @@
 from .forms import UserRegistrationForm
-from django.shortcuts import render
-from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, UserManager
 from .models import Article, UserStatus, UserImage
 from BlogServ import settings
@@ -20,6 +20,8 @@ def reg(request):
         new_user.save()
         userstatus = UserStatus(user=new_user, status="Hi there! It's my new Sandox page!")
         userstatus.save()
+        login(request, new_user)
+        return redirect("index")
     else:
         return render(request, "BlogApp/userform.html", {"err":True, "reg":True})    
 
