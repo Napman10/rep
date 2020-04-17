@@ -1,0 +1,23 @@
+{% extends "BlogApp/base.html" %}
+{% block title %}Edit status{% endblock title %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
+            <h6>Edit your status</h6>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="form-group">
+                <label>Status</label>
+                <input name ="status" type="text" class="form-control" id="status" value="{{status}}">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit" class="btn btn-secondary">Enter</button>
+        </div>     
+    </div>
+</form>
+{% endblock content %}

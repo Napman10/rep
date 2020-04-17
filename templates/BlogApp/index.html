@@ -1,0 +1,33 @@
+{% extends "BlogApp/base.html" %}
+{% block title %}Sandox{% endblock title %}
+{% block content %}
+    {% for note in bag %}
+      <div class="card">
+          <div class="card-header">
+            <h6>{{note.author_name}}
+              {% if auth %}
+                <div class="btn-group">
+                  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"></button>
+                   <div class="dropdown-menu dropdown-menu-lg-right">
+                    {% if note.user.id == id %}                    
+                     <a class="dropdown-item" href=editnote?noteId={{note.id}}>Edit</a>
+                     <a class="dropdown-item" href=deletenote?noteId={{note.id}}>Delete</a>
+                    {% else %}
+                     <a class="dropdown-item" href=profile?id={{note.user.id}}>Profile</a>
+                    {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </h6>
+          </div>
+           <div class="card-body">
+             <h5 class="card-title">{{note.title}}</h5>
+             <p class="card-text">{{note.text}}</p>
+           </div>
+           <div class="card-footer text-muted">
+             {{note.datetime}}
+           </div>
+         </div>
+         <br>
+       {% endfor %}
+{% endblock content %}

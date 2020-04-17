@@ -1,0 +1,64 @@
+{% extends "BlogApp/base.html" %}
+{% block title %}{{pusername}} | {{pname}} {{psurname}}{% endblock title %}
+{% block content %}
+    <div class="card" style="width: 25rem;">
+        <div class="card-body">            
+            <h4>
+                Profile
+                {% if pid == id %} 
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"></button>
+                     <div class="dropdown-menu dropdown-menu-lg-right">                                       
+                         <a class="dropdown-item" href=editme>Edit information</a>
+                         <a class="dropdown-item" href=editstatus>Edit status</a>
+                         <a class="dropdown-item" href=editimage>Set image</a>
+                         <a class="dropdown-item" href=delimage>Delete image</a>
+                     </div>
+                </div>
+               {% endif %}
+            </h4>
+            {% if hasph %}
+            <img src={{photo}} class="card-img-top"  alt="w/out photo">
+            {% endif %}
+            <h5 class="card-title">{{pusername}}</h5>
+            <small>Id: {{pid}}</small>
+            <p class="card-text">
+                {{pname}} {{psurname}}
+            </p>
+            <p class="card-text">
+                {{pstatus}}
+            </p>        
+            {% if isMy %}
+            <a href="writenote" class="btn btn-secondary">Write a new note</a>
+            <br>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+       {% for note in bag %}
+       <div class="card">
+           <div class="card-header">
+               <h6>{{note.author_name}}
+               {% if note.user.id == id %}
+               <div class="btn-group">
+                   <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"></button>
+                   <div class="dropdown-menu dropdown-menu-lg-right">
+                     <a class="dropdown-item" href=editnote?noteId={{note.id}}>Edit</a>
+                     <a class="dropdown-item" href=deletenote?noteId={{note.id}}>Delete</a>
+                   </div>
+               </div>
+               </h6>
+               {% endif %}
+              </div>
+           <div class="card-body">
+             <h5 class="card-title">{{note.title}}</h5>
+             <p class="card-text">{{note.text}}</p>
+           </div>
+           <div class="card-footer text-muted">
+               {{note.datetime}}
+             </div>
+         </div>
+         <br>
+       {% endfor %}
+</div>
+{% endblock content %}

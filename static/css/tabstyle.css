@@ -1,0 +1,9 @@
+table {
+    border: 1px solid rgba(204, 204, 204, 0.425);  /* граница всей таблицы */
+}
+tr {
+    border: 1px solid #ccc;  /* границы между строками */
+}
+td, th {
+    border: 1px solid #ccc;  /* границы между столбцами */
+}
