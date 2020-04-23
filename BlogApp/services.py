@@ -33,7 +33,6 @@ def edituser(request):
 
 def renderableDict(request):
     me = request.user
-    photolist = list()
     photodict = dict()
     status = ''
     try:
@@ -41,12 +40,11 @@ def renderableDict(request):
     except:
         pass
     try:
-        photolist = UserImage.manager.filter(user=me)
-        photodict.update({"myphoto":photolist[0].photo.url})
+        photodict.update({"myphoto":UserImage.manager.filter(user=me)[0].photo.url})
     except:
         pass
     dict1 = {"id":me.id,"username":me.username, "name":me.first_name, "surname":me.last_name,
-    "status":status, "auth":True, "haveph": len(photolist)!=0}
+    "status":status, "auth":True, "haveph": "myphoto" in photodict}
     dict1.update(photodict)
     return dict1
 
@@ -56,10 +54,11 @@ def profileDict(request):
     searchId = request.GET.get("id", "")
     if len(searchId)!=0:
         profile = User.objects.get(id=int(searchId))
-    photolist = UserImage.manager.filter(user=profile)
     photodict = dict()
-    if len(photolist)!=0:
-        photodict.update({"photo":photolist[0].photo.url})
+    try:
+        photodict.update({"photo":UserImage.manager.filter(user=profile)[0].photo.url})
+    except:
+        pass
     me = request.user.id
     pstatus = ''
     try:
@@ -70,7 +69,7 @@ def profileDict(request):
     bag.reverse()
     dict2 = {"pid":profile.id, "isMy":profile.id==me, "bag":bag,
     "pusername":profile.username, "pname":profile.first_name, "psurname":profile.last_name,
-    "pstatus":pstatus, "hasph": len(photolist)!=0}
+    "pstatus":pstatus, "hasph": "photo" in photodict}
     dict1.update(dict2)
     dict1.update(photodict)
     return dict1
