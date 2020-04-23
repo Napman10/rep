@@ -15,7 +15,15 @@
         "pk": 1,
         "fields": {
             "user":1,
-            "status":"Я первый!"
+            "status":"Я не первый!"
+        }
+      },
+      {
+        "model": "BlogApp.UserImage",
+        "pk": 1,
+        "fields": {
+            "user":1,
+            "photo":"users/initcat.jpg"
         }
       },
       {
