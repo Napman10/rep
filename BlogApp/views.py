@@ -39,41 +39,33 @@ def user_fill(request, r=True):
 def editme(request):
     return user_fill(request, False)
 
+@login_required
 def profile(request):
-    if request.user.is_authenticated:
-        return render(request, "BlogApp/profile.html", profileDict(request))
-    else:
-        return redirect("login")
+    return render(request, "BlogApp/profile.html", profileDict(request))
 
+@login_required
 def writenote(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            savepost(request)
-            return redirect('index')
-        else:
-            return render(request, "BlogApp/writepost.html", renderableDict(request))
+    if request.method == "POST":
+        savepost(request)
+        return redirect('index')
     else:
-        return redirect("login")
+        return render(request, "BlogApp/writepost.html", renderableDict(request))
 
+@login_required
 def editstatus(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            savestatus(request)
-            return redirect("index")
-        else:
-            return render(request, "BlogApp/editstatus.html", renderableDict(request))
+    if request.method == "POST":
+        savestatus(request)
+        return redirect("index")
     else:
-        return redirect("login")
+        return render(request, "BlogApp/editstatus.html", renderableDict(request))
 
+@login_required
 def editnote(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            edit_note(request)
-            return redirect('index')
-        else:
-            return render(request, "BlogApp/writepost.html", for_note_edit_dict(request))
+    if request.method == "POST":
+        edit_note(request)
+        return redirect('index')
     else:
-        return redirect("login")
+        return render(request, "BlogApp/writepost.html", for_note_edit_dict(request))
 
 def deletenote(request):
     noteId = request.GET.get("noteId", "")
@@ -84,21 +76,17 @@ def deletenote(request):
     else:
         return HttpResponse("err")
 
+@login_required
 def editimage(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            saveimage(request)
-            return redirect("index")
-        else:
-            return render(request, "BlogApp/changeimage.html", renderableDict(request))
-    else:
-        return redirect("login")
-
-def delimage(request):
-    if request.user.is_authenticated:
-        deleteimage(request)
+    if request.method == "POST":
+        saveimage(request)
         return redirect("index")
     else:
-        return redirect("login")
+        return render(request, "BlogApp/changeimage.html", renderableDict(request))
+
+@login_required
+def delimage(request):
+    deleteimage(request)
+    return redirect("index")
 
 # Create your views here.
