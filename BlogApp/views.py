@@ -67,6 +67,7 @@ def editnote(request):
     else:
         return render(request, "BlogApp/writepost.html", for_note_edit_dict(request))
 
+@login_required
 def deletenote(request):
     noteId = request.GET.get("noteId", "")
     note = Article.manager.get(id=noteId)
