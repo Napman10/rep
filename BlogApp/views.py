@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from .services import auth, reg, profileDict, savepost, fullBag, deleteimage, editUserDict, edituser, renderableDict, savestatus, for_note_edit_dict, saveimage, edit_note
 from django.template.response import TemplateResponse
 from .models import Article
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, "BlogApp/index.html", fullBag(request))
@@ -20,6 +21,7 @@ def log_in(request):
     else:
         return render(request, "BlogApp/login.html", {"err":False})
 
+@login_required
 def log_out(request):
     logout(request)
     return redirect("index")
