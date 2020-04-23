@@ -1,0 +1,32 @@
+[
+    {
+      "model": "auth.User",
+      "pk": 1,
+      "fields": {
+        "username": "thefirst",
+        "password": "any",
+        "first_name": "Первый",
+        "last_name": "Из Первых",
+        "email": "fstsss@gmail.com"
+      }
+    },
+    {
+        "model": "BlogApp.UserStatus",
+        "pk": 1,
+        "fields": {
+            "user":1,
+            "status":"Я первый!"
+        }
+      },
+      {
+        "model": "BlogApp.Article",
+        "pk": 1,
+        "fields": {
+            "user":1,
+            "title":"Успешно",
+            "text":"успешно ввел начальные данные",
+            "author_name":"thefirst",
+            "datetime":"2020-01-01T00:00:00.365579"        
+        }
+      }
+  ]

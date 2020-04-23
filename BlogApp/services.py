@@ -35,7 +35,11 @@ def renderableDict(request):
     me = request.user
     photolist = list()
     photodict = dict()
-    status = UserStatus.manager.get(user=me).status
+    status = ''
+    try:
+        status = UserStatus.manager.get(user=me).status
+    except:
+        pass
     try:
         photolist = UserImage.manager.filter(user=me)
         photodict.update({"myphoto":photolist[0].photo.url})
@@ -57,7 +61,11 @@ def profileDict(request):
     if len(photolist)!=0:
         photodict.update({"photo":photolist[0].photo.url})
     me = request.user.id
-    pstatus = UserStatus.manager.get(user=profile).status
+    pstatus = ''
+    try:
+        pstatus = UserStatus.manager.get(user=profile).status
+    except:
+        pass
     bag = list(Article.manager.filter(user=profile))
     bag.reverse()
     dict2 = {"pid":profile.id, "isMy":profile.id==me, "bag":bag,
