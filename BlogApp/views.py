@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm
 from django.contrib.auth import login, logout, authenticate
-from .services import auth, reg, profileDict, savepost, fullBag, deleteimage, editUserDict, edituser, renderableDict, savestatus, for_note_edit_dict, saveimage, edit_note
-from django.template.response import TemplateResponse
+from .services import auth, reg, profileDict, savepost, fullBag, deleteimage, deleteself, editUserDict, edituser, renderableDict, savestatus, for_note_edit_dict, saveimage, edit_note
 from .models import Article
 from django.contrib.auth.decorators import login_required
 
@@ -15,7 +13,7 @@ def log_in(request):
         user = auth(request)
         if user is not None:
             login(request, user)
-            return HttpResponsePermanentRedirect("index")
+            return redirect("index")
         else:
             return render(request, "BlogApp/login.html", {"err":True})
     else:
@@ -73,9 +71,8 @@ def deletenote(request):
     note = Article.manager.get(id=noteId)
     if request.user == note.user:
         note.delete()
-        return redirect('index')
-    else:
-        return HttpResponse("err")
+    return redirect('index')
+
 
 @login_required
 def editimage(request):
@@ -90,4 +87,8 @@ def delimage(request):
     deleteimage(request)
     return redirect("index")
 
+@login_required
+def delself(request):
+    deleteself(request)
+    return redirect("index")
 # Create your views here.

@@ -1,6 +1,6 @@
 from .forms import UserRegistrationForm
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, UserManager
 from .models import Article, UserStatus, UserImage
 from BlogServ import settings
@@ -132,3 +132,10 @@ def deleteimage(request):
     if len(photolist)!=0:
         os.remove(photolist[0].photo.path)
         photolist[0].delete()
+
+def deleteself(request):
+    id = request.user.id
+    deleteimage(request)
+    logout(request)
+    user = User.objects.get(id=id)
+    user.delete()
