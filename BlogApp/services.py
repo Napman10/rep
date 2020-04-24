@@ -36,7 +36,7 @@ def edituser(request):
     u.last_name = request.POST['last_name']
     u.save()
     return redirect("index")
-    
+
 def renderableDict(request):
     me = request.user
     photodict = dict()
@@ -148,8 +148,8 @@ def deleteself(request):
 
 def set_psswrd(request):
     user = request.user
-    if user.check_password(request.POST["current_password"]):
-        user.set_password(request.POST["new_password"])
+    if user.check_password(request.POST["current_password"]) and cmpr_password(request):
+        user.set_password(request.POST["password"])
         user.save()
         login(request, user)
         return redirect('index')
