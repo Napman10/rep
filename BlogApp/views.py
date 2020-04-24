@@ -27,10 +27,9 @@ def log_out(request):
 def user_fill(request, r=True):
     if request.method == "POST":
         if r:
-            reg(request)
+            return reg(request)
         else:
-            edituser(request)
-        return redirect("index")     
+            return edituser(request)     
     else:      
         return render(request, "BlogApp/userform.html", editUserDict(request, r))
 

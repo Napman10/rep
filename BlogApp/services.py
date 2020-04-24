@@ -12,9 +12,14 @@ def auth(request):
     user = authenticate(request, username=username, password=password)
     return user
 
+def cmpr_password(request):
+    p1 = request.POST['password']
+    p2 = request.POST['confirm_password']
+    return p1 == p2
+
 def reg(request):
     user_form = UserRegistrationForm(request.POST)
-    if user_form.is_valid():
+    if user_form.is_valid() and cmpr_password(request):
         new_user = user_form.save(commit=False)
         new_user.set_password(user_form.cleaned_data['password'])
         new_user.save()
@@ -30,7 +35,8 @@ def edituser(request):
     u.first_name = request.POST['first_name']
     u.last_name = request.POST['last_name']
     u.save()
-
+    return redirect("index")
+    
 def renderableDict(request):
     me = request.user
     photodict = dict()
