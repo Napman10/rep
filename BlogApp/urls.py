@@ -14,4 +14,5 @@ urlpatterns = [
     path('editimage', views.editimage, name='editimage'),
     path('delimage', views.delimage, name='delimage'),
     path('delself', views.delself, name='delself'),
+    path('setpassword', views.setpassword, name='setpassword'),
 ] 

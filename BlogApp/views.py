@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm
 from django.contrib.auth import login, logout, authenticate
-from .services import auth, reg, profileDict, savepost, fullBag, deleteimage, deleteself, editUserDict, edituser, renderableDict, savestatus, for_note_edit_dict, saveimage, edit_note
+from .services import set_psswrd, auth, reg, profileDict, savepost, fullBag, deleteimage, deleteself, editUserDict, edituser, renderableDict, savestatus, for_note_edit_dict, saveimage, edit_note
 from .models import Article
 from django.contrib.auth.decorators import login_required
 
@@ -91,4 +91,11 @@ def delimage(request):
 def delself(request):
     deleteself(request)
     return redirect("index")
+
+@login_required
+def setpassword(request):
+    if request.method == "POST":
+        return set_psswrd(request)
+    else:
+        return render(request, "BlogApp/setpassword.html", renderableDict(request))
 # Create your views here.

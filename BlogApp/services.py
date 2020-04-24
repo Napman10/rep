@@ -1,7 +1,7 @@
 from .forms import UserRegistrationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 from .models import Article, UserStatus, UserImage
 from BlogServ import settings
 import os
@@ -139,3 +139,15 @@ def deleteself(request):
     logout(request)
     user = User.objects.get(id=id)
     user.delete()
+
+def set_psswrd(request):
+    user = request.user
+    if user.check_password(request.POST["current_password"]):
+        user.set_password(request.POST["new_password"])
+        user.save()
+        login(request, user)
+        return redirect('index')
+    else:
+        dict1 = renderableDict(request)
+        dict1.update({"err":True})
+        return render(request, "BlogApp/setpassword.html", dict1)
